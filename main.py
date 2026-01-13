@@ -1247,7 +1247,7 @@ async def help_cmd(ctx):
     
     embed = discord.Embed(
         title="📖 Reputation Bot - Commands",
-        description=f"Prefix: `{Config.PREFIX}` | Database: PostgreSQL ✅",
+        description=f"Prefix: `{Config.PREFIX}` | Commands 👇",
         color=discord.Color.blue()
     )
     
@@ -1284,9 +1284,9 @@ async def help_cmd(ctx):
         name="ℹ️ Information",
         value=(
             f"• Vouch: **{Config.VOUCH_REP_AMOUNT}⭐** (cooldown: {Config.VOUCH_COOLDOWN // 60} min)\n"
-            f"• Helpvouch: Staff **2⭐**, Members **1⭐**\n"
-            f"• Dummy: Remove **3⭐** ({Config.DUMMY_PER_DAY}x per day)\n"
-            f"• Data saved to PostgreSQL database"
+            f"• Helpvouch: Staff Give **2⭐**, Members Give **1⭐**\n"
+            f"• Dummy: Remove **3⭐** ({Config.DUMMY_PER_DAY}x limited per day)\n"
+            f"• Vouch Cooldown **10 Minutes**\"
         ),
         inline=False
     )
