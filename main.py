@@ -23,7 +23,7 @@ logging.basicConfig(
 )
 
 class Config:
-    OWNER_ID = 1439497398190866495, 1029438856069656576
+    OWNER_ID = 1029438856069656576
     TOKEN = os.getenv('DISCORD_BOT_TOKEN')
     DATABASE_URL = os.getenv('DATABASE_URL')  # ⭐ PostgreSQL URL from Render
     PREFIX = '!'
@@ -1255,7 +1255,7 @@ async def help_cmd(ctx):
         name="🌟 Reputation Commands",
         value=(
             f"`{Config.PREFIX}vouch @user reason` - Give {Config.VOUCH_REP_AMOUNT} rep\n"
-            f"`{Config.PREFIX}helpvouch @user` - Staff: 2⭐ | Members: 1⭐\n"
+            f"`{Config.PREFIX}helpvouch @user` - Staff - Give 2 rep per use| Members - Give 1 rep per use\n"
             f"`{Config.PREFIX}dummy @user` - Remove 3 rep (3x/day)\n"
             f"`{Config.PREFIX}leaderboard` - View leaderboard\n"
             f"`{Config.PREFIX}rank [@user]` - Check reputation\n"
@@ -1283,9 +1283,9 @@ async def help_cmd(ctx):
     embed.add_field(
         name="ℹ️ Information",
         value=(
-            f"• Vouch: **{Config.VOUCH_REP_AMOUNT}⭐** (cooldown: {Config.VOUCH_COOLDOWN // 60} min)\n"
-            f"• Helpvouch: Staff Give **2⭐**, Members Give **1⭐**\n"
-            f"• Dummy: Remove **3⭐** ({Config.DUMMY_PER_DAY}x limited per day)\n"
+            f"• Vouch: **{Config.VOUCH_REP_AMOUNT} rep** (cooldown: {Config.VOUCH_COOLDOWN // 60} min)\n"
+            f"• Helpvouch: Staff Gives **2 rep per use**, Members Gives **1 rep per use**\n"
+            f"• Dummy: Remove **3 rep** ({Config.DUMMY_PER_DAY}x limited uses per day)\n"
         ),
         inline=False
     )
