@@ -1766,16 +1766,6 @@ async def help_cmd(ctx):
         inline=False
     )
 
-"""
-# For public commands section:
-
-
-# For staff commands section (if is_staff_user):
-f"`{Config.PREFIX}applyscammer @user reason` - Report a scammer\n"
-f"`{Config.PREFIX}removescammer @user [report_id]` - Remove report\n"
-f"`{Config.PREFIX}clearallscam @user` - Clear all reports\n"
-"""
-
     if is_owner_user:
         embed.add_field(
             name="👑 Owner Commands",
