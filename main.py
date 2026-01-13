@@ -418,7 +418,7 @@ class DatabaseManager:
             logging.error(f"Error adding helpvouch: {e}")
 
 # Initialize database
-db = DatabaseManager(
+db = DatabaseManager()
   
 # Bot Setup
 intents = discord.Intents.default()
