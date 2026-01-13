@@ -306,103 +306,8 @@ class DatabaseManager:
 
 """
 SCAMMER SYSTEM - PART 1: Database Functions
-Add this to your DatabaseManager class (after the helpvouch function
+Add thisbaseManager class (after the helpvouch function
 """
-
-# ========================================
-# SCAMMER FUNCTIONS - Add these to DatabaseManager class
-# ========================================
-
-def add_scammer_report(self, user_id: int, reporter_id: int, reason: str):
-    """Add a scammer report (Staff only)"""
-    try:
-        cursor = self.conn.cursor()
-        cursor.execute('''
-            INSERT INTO scammer_reports (user_id, reporter_id, reason)
-            VALUES (%s, %s, %s)
-        ''', (user_id, reporter_id, reason))
-        cursor.close()
-        logging.info(f"Scammer report added: {reporter_id} -> {user_id}")
-    except Exception as e:
-        logging.error(f"Error adding scammer report: {e}")
-
-def get_scammer_reports(self, user_id: int) -> List[Dict]:
-    """Get all scammer reports for a user"""
-    try:
-        cursor = self.conn.cursor()
-        cursor.execute('''
-            SELECT id, reporter_id, reason, created_at
-            FROM scammer_reports
-            WHERE user_id = %s
-            ORDER BY created_at DESC
-        ''', (user_id,))
-        results = cursor.fetchall()
-        cursor.close()
-        
-        return [{
-            'id': row[0],
-            'reporter': row[1],
-            'reason': row[2],
-            'timestamp': row[3].isoformat()
-        } for row in results]
-    except Exception as e:
-        logging.error(f"Error getting scammer reports: {e}")
-        return []
-
-def remove_scammer_report(self, report_id: int):
-    """Remove a specific scammer report by ID"""
-    try:
-        cursor = self.conn.cursor()
-        cursor.execute('''
-            DELETE FROM scammer_reports WHERE id = %s
-        ''', (report_id,))
-        cursor.close()
-        logging.info(f"Scammer report {report_id} removed")
-    except Exception as e:
-        logging.error(f"Error removing scammer report: {e}")
-
-def clear_all_scammer_reports(self, user_id: int):
-    """Clear all scammer reports for a user"""
-    try:
-        cursor = self.conn.cursor()
-        cursor.execute('''
-            DELETE FROM scammer_reports WHERE user_id = %s
-        ''', (user_id,))
-        cursor.close()
-        logging.info(f"All scammer reports cleared for user {user_id}")
-    except Exception as e:
-        logging.error(f"Error clearing scammer reports: {e}")
-
-def get_all_scammers(self) -> List[tuple]:
-    """Get all users who have scammer reports"""
-    try:
-        cursor = self.conn.cursor()
-        cursor.execute('''
-            SELECT user_id, COUNT(*) as report_count
-            FROM scammer_reports
-            GROUP BY user_id
-            ORDER BY report_count DESC
-        ''')
-        results = cursor.fetchall()
-        cursor.close()
-        return results
-    except Exception as e:
-        logging.error(f"Error getting all scammers: {e}")
-        return []
-
-def is_reported_scammer(self, user_id: int) -> bool:
-    """Check if user has any scammer reports"""
-    try:
-        cursor = self.conn.cursor()
-        cursor.execute('''
-            SELECT COUNT(*) FROM scammer_reports WHERE user_id = %s
-        ''', (user_id,))
-        result = cursor.fetchone()
-        cursor.close()
-        return result[0] > 0 if result else False
-    except Exception as e:
-        logging.error(f"Error checking scammer status: {e}")
-        return False
 
     
     # ========================================
@@ -512,8 +417,8 @@ def is_reported_scammer(self, user_id: int) -> bool:
             cursor.close()
         except Exception as e:
             logging.error(f"Error using dummy: {e}")
-    
-    # ========================================
+
+# ========================================
     # HELPVOUCH FUNCTIONS
     # ========================================
     
@@ -528,9 +433,105 @@ def is_reported_scammer(self, user_id: int) -> bool:
             cursor.close()
         except Exception as e:
             logging.error(f"Error adding helpvouch: {e}")
+    
+    # ========================================
+    # SCAMMER FUNCTIONS
+    # ========================================
+    
+    def add_scammer_report(self, user_id: int, reporter_id: int, reason: str):
+        """Add a scammer report (Staff only)"""
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute('''
+                INSERT INTO scammer_reports (user_id, reporter_id, reason)
+                VALUES (%s, %s, %s)
+            ''', (user_id, reporter_id, reason))
+            cursor.close()
+            logging.info(f"Scammer report added: {reporter_id} -> {user_id}")
+        except Exception as e:
+            logging.error(f"Error adding scammer report: {e}")
+
+    def get_scammer_reports(self, user_id: int) -> List[Dict]:
+        """Get all scammer reports for a user"""
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute('''
+                SELECT id, reporter_id, reason, created_at
+                FROM scammer_reports
+                WHERE user_id = %s
+                ORDER BY created_at DESC
+            ''', (user_id,))
+            results = cursor.fetchall()
+            cursor.close()
+            
+            return [{
+                'id': row[0],
+                'reporter': row[1],
+                'reason': row[2],
+                'timestamp': row[3].isoformat()
+            } for row in results]
+        except Exception as e:
+            logging.error(f"Error getting scammer reports: {e}")
+            return []
+
+    def remove_scammer_report(self, report_id: int):
+        """Remove a specific scammer report by ID"""
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute('''
+                DELETE FROM scammer_reports WHERE id = %s
+            ''', (report_id,))
+            cursor.close()
+            logging.info(f"Scammer report {report_id} removed")
+        except Exception as e:
+            logging.error(f"Error removing scammer report: {e}")
+
+    def clear_all_scammer_reports(self, user_id: int):
+        """Clear all scammer reports for a user"""
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute('''
+                DELETE FROM scammer_reports WHERE user_id = %s
+            ''', (user_id,))
+            cursor.close()
+            logging.info(f"All scammer reports cleared for user {user_id}")
+        except Exception as e:
+            logging.error(f"Error clearing scammer reports: {e}")
+
+    def get_all_scammers(self) -> List[tuple]:
+        """Get all users who have scammer reports"""
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute('''
+                SELECT user_id, COUNT(*) as report_count
+                FROM scammer_reports
+                GROUP BY user_id
+                ORDER BY report_count DESC
+            ''')
+            results = cursor.fetchall()
+            cursor.close()
+            return results
+        except Exception as e:
+            logging.error(f"Error getting all scammers: {e}")
+            return []
+
+    def is_reported_scammer(self, user_id: int) -> bool:
+        """Check if user has any scammer reports"""
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute('''
+                SELECT COUNT(*) FROM scammer_reports WHERE user_id = %s
+            ''', (user_id,))
+            result = cursor.fetchone()
+            cursor.close()
+            return result[0] > 0 if result else False
+        except Exception as e:
+            logging.error(f"Error checking scammer status: {e}")
+            return False
 
 # Initialize database
 db = DatabaseManager()
+    
   
 # Bot Setup
 intents = discord.Intents.default()
